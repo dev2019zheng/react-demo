@@ -46,3 +46,5 @@ class Input extends Component {
     })
   }
 }
+
+export default Input;
