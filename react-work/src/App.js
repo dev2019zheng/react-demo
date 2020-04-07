@@ -9,10 +9,10 @@ class App extends React.Component{
       value: 'control'
     }
   }
-
-  value = 'default'
+  value = 'default';
 
   render() {
+    window.rt = this;
     const {
       value
     } = this.state

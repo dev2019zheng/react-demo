@@ -1,50 +1,41 @@
-import React, {
-  Component
-} from 'react';
+import React, {useEffect, useState} from 'react';
 
-class Input extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      innerValue: ''
-    }
-  }
+const Input = (props) => {
+  const [innerValue, setInnerValue] = useState('')
   // 判断是否可控
-  get isControl() {
-    return 'value' in this.props;
-  }
-  get value() {
-    if (this.isControl) {
-      return this.props.value;
+  const isControl = function() {
+    return 'value' in props;
+  };
+
+  const value = function() {
+    if (isControl()) {
+      return props.value;
     } else {
-      return this.state.innerValue;
+      return innerValue;
     }
-  }
+  };
 
-  render() {
-    return (
-      <input
-        value = {
-          this.value
-        }
-        onChange = {
-          (e) => {
-            if (!this.isControl) {
-              this.setState({
-                innerValue: e.target.value
-              })
-            }
-            this.props.onChange(e)
+  useEffect(() => {
+    // 初始化为 defaultValue
+    setInnerValue(props.defaultValue);
+    return () => {
+    }
+  }, [props.defaultValue]);
+
+  return (
+    <input
+      value = {
+        value()
+      }
+      onChange = {
+        (e) => {
+          if (!isControl()) {
+            setInnerValue(e.target.value);
           }
+          props.onChange(e)
         }
-      />
-    )
-  }
-  componentDidMount() {
-    this.setState({
-      innerValue: this.props.defaultValue
-    })
-  }
-}
-
+      }
+    />
+  )
+};
 export default Input;
